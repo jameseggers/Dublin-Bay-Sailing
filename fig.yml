@@ -1,0 +1,14 @@
+db:
+  image: mysql:latest
+
+web:
+  build: .
+  command: /sbin/my_init
+  volumes:
+    - .:/home/app/sailing
+  ports:
+    - "80:80"
+  links:
+    - db
+  environment:
+    RAILS_ENV: development
