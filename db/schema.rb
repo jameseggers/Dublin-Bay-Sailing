@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303231159) do
+ActiveRecord::Schema.define(version: 20150303232617) do
 
   create_table "buoys", force: :cascade do |t|
     t.string "latitude",  limit: 255
@@ -25,6 +25,11 @@ ActiveRecord::Schema.define(version: 20150303231159) do
     t.integer  "wind_direction", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.string  "buoy_listing", limit: 255
+    t.integer "course_id",    limit: 4
   end
 
 end
