@@ -7,7 +7,7 @@ namespace :import do
 
     buoy_file.each_line do |line|
       data = line.split(',')
-      Buoy.create({latitude: data[0], longitude: data[1], name: data[2], symbol: data[3].strip!})
+      Buoy.create({latitude: dms_to_lat_long(data[0]), longitude: dms_to_lat_long(data[1]), name: data[2], symbol: data[3].strip!})
     end
   end
 
@@ -23,5 +23,11 @@ namespace :import do
         Listing.create({buoy_listing: data[1].strip!, course_id: course_id})
       end
     end
+  end
+
+  def dms_to_lat_long(dms)
+    splited = dms.split(' ')
+    splited_dot = splited[1].split('.')
+    splited[0].to_f + ((splited_dot[1].to_f/60)+splited_dot[0].to_f)/60
   end
 end

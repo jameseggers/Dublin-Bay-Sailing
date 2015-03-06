@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(version: 20150303232617) do
 
   create_table "buoys", force: :cascade do |t|
-    t.string "latitude",  limit: 255
-    t.string "longitude", limit: 255
+    t.float  "latitude",  limit: 24
+    t.float  "longitude", limit: 24
     t.string "name",      limit: 255
     t.string "symbol",    limit: 255
   end

@@ -1,5 +1,13 @@
 class CoursesController < ActionController::Base
+  before_action :set_course
+
   def show
-    render json: Course.find(params[:course_id])
+    @buoys = Buoy.all
+  end
+
+  private
+
+  def set_course
+    @course = Course.find(params[:course_id])
   end
 end
