@@ -6,10 +6,9 @@ sailingApp.factory('Course', ['$resource', ($resource) ->
 
 sailingApp.directive('sailingMap', ->
   link: (scope) ->
+    dun_laoghaire = new google.maps.LatLng(53.32249966680044, -6.13918810268558);
     mapOptions =
-        center:
-          lat: 53.32249966680044
-          lng: -6.13918810268558
+        center: dun_laoghaire
         zoom: 13
     scope.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions)
     scope.markers = []
@@ -18,22 +17,15 @@ sailingApp.directive('sailingMap', ->
 sailingApp.directive('sailingData', (Course) ->
   link: (scope) ->
     scope.markers = []
-    scope.buoys = JSON.parse(localStorage.getItem('buoys'))
-    scope.courses = JSON.parse(localStorage.getItem('courses'))
-    scope.listings = JSON.parse(localStorage.getItem('listings'))
 
     Course.get({}, (resp) ->
       buoys = {}
       for buoy in resp.buoys
         buoys[buoy.symbol] = buoy
 
-      localStorage.setItem('buoys', JSON.stringify(buoys))
-      localStorage.setItem('courses', JSON.stringify(resp.courses))
-      localStorage.setItem('listings', JSON.stringify(resp.listings))
       scope.buoys = buoys
       scope.courses = resp.courses
       scope.listings = resp.listings
-      console.log scope.courses
     )
 )
 
