@@ -1,12 +1,7 @@
 sailingApp = angular.module('sailingApp', ["ngResource"]);
 
 sailingApp.factory('Course', ['$resource', ($resource) ->
-  return $resource('courses/:course_id.json', {},
-    query:
-      method: 'GET',
-      params:
-        course_id: '@'
-  )
+  return $resource('courses.json', {}, {})
 ])
 
 sailingApp.directive('sailingMap', ->
@@ -22,30 +17,31 @@ sailingApp.directive('sailingMap', ->
 
 sailingApp.directive('sailingData', (Course) ->
   link: (scope) ->
+    scope.markers = []
     scope.buoys = JSON.parse(localStorage.getItem('buoys'))
-    scope.course = JSON.parse(localStorage.getItem('course'))
+    scope.courses = JSON.parse(localStorage.getItem('courses'))
     scope.listings = JSON.parse(localStorage.getItem('listings'))
 
-    Course.get(
-      course_id: 3
-    ,
-      (resp) ->
-        buoys = {}
-        for buoy in resp.buoys
-          buoys[buoy.symbol] = buoy
+    Course.get({}, (resp) ->
+      buoys = {}
+      for buoy in resp.buoys
+        buoys[buoy.symbol] = buoy
 
-        localStorage.setItem('buoys', JSON.stringify(buoys))
-        localStorage.setItem('course', JSON.stringify(resp.course))
-        localStorage.setItem('listings', JSON.stringify(resp.listings))
-        scope.buoys = buoys
-        scope.course = resp.course
-        scope.listings = resp.listings
+      localStorage.setItem('buoys', JSON.stringify(buoys))
+      localStorage.setItem('courses', JSON.stringify(resp.courses))
+      localStorage.setItem('listings', JSON.stringify(resp.listings))
+      scope.buoys = buoys
+      scope.courses = resp.courses
+      scope.listings = resp.listings
+      console.log scope.courses
     )
 )
 
 sailingApp.controller('MainSailingController', ($scope, Course) ->
-  $scope.add_course_marks = ->
-    for mark in $scope.listings[0].buoy_listing.split(' ')
+  $scope.addMarkers = ->
+    $scope.clearMarkers()
+
+    for mark in $scope.listings[$scope.selectedCourse][0].buoy_listing.split(' ')
       split = mark.split('')
       buoy_symbol = split[0]
       rounding_direction = split[1]
@@ -55,6 +51,12 @@ sailingApp.controller('MainSailingController', ($scope, Course) ->
       marker = new google.maps.Marker(
         position: latlng,
         map: $scope.map,
-        title: "lol"
+        title: buoy.name
       )
+      $scope.markers.push marker
+
+  $scope.clearMarkers = ->
+    for marker in $scope.markers
+      marker.setMap(null)
+    $scope.markers = []
 )

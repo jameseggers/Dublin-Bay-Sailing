@@ -1,7 +1,9 @@
 class CoursesController < ActionController::Base
-  before_action :set_course
+  before_action :set_course, except: :index
 
-  def show
+  def index
+    @courses = Course.all
+    @listings = Listing.all.group_by { |o| o.course_id }
     @buoys = Buoy.all
   end
 

@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'dash#index'
 
-  get 'courses/:course_id' => "courses#show"
+  #get 'courses/:course_id' => "courses#show"
+  get 'courses' => "courses#index"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
