@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>GPS</title>
+    <style>
+      html, body, #map-canvas {
+       width: 360px;
+        height: 400px;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script>
+var map;
+function initialize() 
+{
+    	var myLatlng = new google.maps.LatLng(53.3165, -6.0894);
+    	var mapOptions = 
+	{
+    		zoom: 12,
+  	};
+
+  	map = new google.maps.Map(document.getElementById('map-canvas'),
+      	mapOptions);
+ 	if(navigator.geolocation) 
+	{
+    		navigator.geolocation.getCurrentPosition(function(position) 
+	{
+      	var gps = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      	var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: gps,
+        content: 'Location found using HTML5.'
+      	});
+
+      	map.setCenter(gps);
+    	}, function() 
+	{
+      		handleNoGeolocation(true);
+    	});
+  	} 
+	else
+	{
+    		// Browser doesn't support Geolocation
+    		handleNoGeolocation(false);
+  	}
+
+    
+	var markers = [
+   	['Start', 53.3165, -6.0894, 1],
+   	['A', 53.3356, -6.0790, 5],
+   	['B', 53.3200, -6.1050, 3],
+   	['C', 53.3078, -6.1200, 2],
+   	['D', 53.3146, -6.0400, 4]];
+  	
+	var raceCourse = new google.maps.Polyline({
+ 	path: [
+ 	new google.maps.LatLng(markers[0][1], markers[0][2]),
+    	new google.maps.LatLng(markers[1][1], markers[1][2]),
+   	new google.maps.LatLng(markers[2][1], markers[2][2]),
+    	new google.maps.LatLng(markers[3][1], markers[3][2]),
+    	new google.maps.LatLng(markers[4][1], markers[4][2]),
+  	],
+    	geodesic: true,
+    	strokeColor: '#FF0000',
+    	strokeOpacity: 1.0,
+    	strokeWeight: 2
+  	});
+
+	setMarkers(map, markers);
+  	raceCourse.setMap(map);
+
+}
+
+function setMarkers(map, locations) 
+{ 
+  	for (var i = 0; i < locations.length; i++)
+	{
+    		var markers = locations[i];
+    		var myLatLng = new google.maps.LatLng(markers[1], markers[2]);
+    		var marker = new google.maps.Marker({
+        	position: myLatLng,
+        	map: map,
+        	title: markers[0],
+        	zIndex: markers[3]
+ 		});
+    
+  	}
+}
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(53.3165, -6.0894),
+    content: content
+  };
+
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
+    
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
