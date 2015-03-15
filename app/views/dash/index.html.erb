@@ -2,7 +2,7 @@
     <div class="row" sailing-data>
       <div class="col-md-3 sidebar maxHeight">
         <ul>
-          <li ng-repeat="course in courses"> <button ng-click="$parent.selectedCourse=$index;addMarkers()"> Course {{ course.symbol }} </button> </li>
+          <li ng-repeat="course in courses"> <button ng-click="$parent.selectedCourse=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
         </ul>
       </div>
       <div class="col-md-9 map_container" style="height:600px;" sailing-map>
