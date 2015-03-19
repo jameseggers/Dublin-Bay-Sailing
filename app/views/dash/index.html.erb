@@ -7,15 +7,6 @@
       </div>
 
       <div class="col-md-3 sidebar maxHeight">
-        <!-- Single button -->
-        <!-- <div class="btn-group centered" dropdown is-open="status.isopen">
-          <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-            Select a Course <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="course in courses"><a href="#" ng-click="$parent.selectedCourse=$index;addMarksAndLine();">Course {{course.symbol}}</a></li>
-          </ul>
-        </div> -->
         <ul>
           <li ng-repeat="course in courses"> <button ng-click="$parent.selectedCourse=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
         </ul>

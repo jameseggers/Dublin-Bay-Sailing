@@ -82,7 +82,7 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $time
         position: latlng
         map: $scope.map
         title: buoy.name
-        icon: '/assets/buoy.png'
+        icon: '/assets/buoy-e7aa992abe5b63febf15632545f69b3c.png'
       )
       $scope.markers.push marker
 
