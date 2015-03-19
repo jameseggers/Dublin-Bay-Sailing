@@ -1,4 +1,4 @@
-sailingApp = angular.module('sailingApp', ["ngResource"]);
+sailingApp = angular.module('sailingApp', ["ngResource", "ui.bootstrap"]);
 
 sailingApp.factory('Course', ['$resource', ($resource) ->
   return $resource('courses.json', {}, {})
@@ -15,7 +15,7 @@ sailingApp.directive('sailingMap', (constants) ->
         center: constants.dun_laoghaire
         zoom: 13
         disableDefaultUI: true
-        dscrollwheel: false
+        scrollwheel: false
         navigationControl: false
         mapTypeControl: false
         scaleControl: false
@@ -113,4 +113,15 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $time
       path.setMap(null)
 
     $scope.markers = []
+
+  $scope.getDistanceFromMarker = (lat1, long1, lat2, long2) ->
+    R = 6371000
+    # metres
+    φ1 = lat1.toRadians()
+    φ2 = lat2.toRadians()
+    Δφ = (lat2 - lat1).toRadians()
+    Δλ = (lon2 - lon1).toRadians()
+    a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    R * c
 )
