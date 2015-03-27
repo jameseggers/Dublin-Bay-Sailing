@@ -28,6 +28,17 @@ html, body {
   margin-top: 40px;
 }
 
+.weather{
+  vertical-align:middle;
+  text-align: center;
+  padding-top: 10px;
+  margin:auto;
+  background: #464646;
+  border-bottom: 10px #424242 solid; 
+  height:100%;
+  color:#fff;
+}
+
 .sidebar {
   ul {
     padding-left: 0px;

@@ -10,9 +10,11 @@
         <ul>
           <li ng-repeat="course in courses"> <button ng-click="$parent.selectedCourse=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
         </ul>
-        <p id = "weatherStuff"> </p>
       </div>
+      
 
     </div>
   </div>
-  <script type = "text/javascript" src="js/weather.js"></script>
+  <div class = "col-md-12 weather">
+        <p id="weatherStuff"></p>
+  </div>

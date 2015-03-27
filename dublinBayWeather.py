@@ -26,5 +26,5 @@ status = status_list[0]
 json_tweet = json.dumps(status._json)
 tweet = json.loads(json_tweet)
 
-with open('app/assets/javascripts/data/tweet.json', 'w') as outfile:
+with open('public/data/tweet.json', 'w') as outfile:
 	json.dump(tweet, outfile)
