@@ -20,7 +20,7 @@ sailingApp.directive('sailingMap', (constants) ->
         mapTypeControl: false
         scaleControl: false
         draggable: false
-        zoomControl: false
+        zoomControl: true
     scope.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions)
     scope.markers = []
     scope.addBoat()
