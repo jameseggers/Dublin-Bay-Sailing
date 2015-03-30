@@ -15,12 +15,12 @@ sailingApp.directive('sailingMap', (constants) ->
         center: constants.dun_laoghaire
         zoom: 13
         disableDefaultUI: true
-        scrollwheel: false
+        scrollwheel: true
         navigationControl: false
         mapTypeControl: false
         scaleControl: false
         draggable: false
-        zoomControl: false
+        zoomControl: true
     scope.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions)
     scope.markers = []
     scope.addBoat()
