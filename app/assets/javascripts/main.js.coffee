@@ -112,10 +112,12 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $inte
       next_buoy = $scope.buoys[marks[i+1].split('')[0]]
       next_latlng = new google.maps.LatLng(next_buoy.latitude, next_buoy.longitude*-1);
 
+      if i is 0 then color = "#FFFFFF" else color = "#000000"
+
       path = new google.maps.Polyline(
         path: [latlng, next_latlng]
         geodisc: true
-        strokeColor: "#000000"
+        strokeColor: color
         strokeOpacity: 1.0
         strokeWeight: 2
         icons: [
