@@ -78,11 +78,15 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $time
 
       latlng = new google.maps.LatLng(buoy.latitude, buoy.longitude*-1);
 
+      icon =
+        scaledSize: new google.maps.Size(30, 30)
+        url: '/assets/buoy-e7aa992abe5b63febf15632545f69b3c.png'
+
       marker = new google.maps.Marker(
         position: latlng
         map: $scope.map
         title: buoy.name
-        icon: '/assets/buoy-e7aa992abe5b63febf15632545f69b3c.png'
+        icon: icon
       )
       $scope.markers.push marker
 
