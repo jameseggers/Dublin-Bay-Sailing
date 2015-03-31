@@ -15,7 +15,7 @@ sailingApp.directive('sailingMap', (constants) ->
         center: constants.dun_laoghaire
         zoom: 13
         disableDefaultUI: true
-        scrollwheel: false
+        scrollwheel: true
         navigationControl: false
         mapTypeControl: false
         scaleControl: false
@@ -42,12 +42,33 @@ sailingApp.directive('sailingData', (Course) ->
     )
 )
 
-sailingApp.controller('MainSailingController', ($scope, Course, constants, $timeout) ->
+sailingApp.controller('MainSailingController', ($scope, Course, constants, $interval) ->
 
   $scope.updateBoatLocation = ->
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition( (position) ->
-          $scope.boat_marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude))
+          currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+
+          $scope.boat_marker.setPosition(currentPosition)
+
+          if $scope.paths[$scope.nextMarkerIndex]
+            distanceToNextMark = getDistanceFromLatLonInKm(
+              currentPosition.lat(),
+              currentPosition.lng(),
+              $scope.markers[$scope.nextMarkerIndex].getPosition().lat(),
+              $scope.markers[$scope.nextMarkerIndex].getPosition().lng()
+            )
+
+            if distanceToNextMark < 0.1
+              $scope.paths[$scope.nextMarkerIndex-1].setOptions(
+                strokeColor: "#000000"
+              )
+
+              $scope.paths[$scope.nextMarkerIndex].setOptions(
+                strokeColor: "#FFFFFF"
+              )
+
+              $scope.nextMarkerIndex += 1
       )
 
   $scope.addBoat = ->
@@ -57,13 +78,10 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $time
       title: "Your Boat"
     )
 
-    $timeout (->
-      $scope.updateBoatLocation()
-    ), 5000
+    $interval($scope.updateBoatLocation, 3000)
 
   $scope.addMarksAndLine = ->
     $scope.clearMap()
-    colours = ['#009900', '#2E7D00', '#5D6100', '#8B4600', '#B92A00', '#D11C00', '#E80E00', '#FF0000']
 
     marks = $scope.listings[$scope.selectedCourse][0].buoy_listing.split(' ')
 
@@ -78,21 +96,28 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $time
 
       latlng = new google.maps.LatLng(buoy.latitude, buoy.longitude*-1);
 
+      icon =
+        scaledSize: new google.maps.Size(30, 30)
+        url: '/assets/buoy-e7aa992abe5b63febf15632545f69b3c.png'
+
       marker = new google.maps.Marker(
         position: latlng
         map: $scope.map
         title: buoy.name
-        icon: '/assets/buoy-e7aa992abe5b63febf15632545f69b3c.png'
+        icon: icon
       )
+
       $scope.markers.push marker
 
       next_buoy = $scope.buoys[marks[i+1].split('')[0]]
       next_latlng = new google.maps.LatLng(next_buoy.latitude, next_buoy.longitude*-1);
 
+      if i is 0 then color = "#FFFFFF" else color = "#000000"
+
       path = new google.maps.Polyline(
         path: [latlng, next_latlng]
         geodisc: true
-        strokeColor: colours[i]
+        strokeColor: color
         strokeOpacity: 1.0
         strokeWeight: 2
         icons: [
@@ -105,6 +130,9 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $time
       $scope.paths.push path
       path.setMap($scope.map)
 
+      # set next mark index
+      $scope.nextMarkerIndex = 1
+
   $scope.clearMap = ->
     for marker, i in $scope.markers
       marker.setMap(null)
@@ -114,14 +142,19 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $time
 
     $scope.markers = []
 
-  $scope.getDistanceFromMarker = (lat1, long1, lat2, long2) ->
-    R = 6371000
-    # metres
-    φ1 = lat1.toRadians()
-    φ2 = lat2.toRadians()
-    Δφ = (lat2 - lat1).toRadians()
-    Δλ = (lon2 - lon1).toRadians()
-    a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+  getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) ->
+    R = 6371
+    # Radius of the earth in km
+    dLat = deg2rad(lat2 - lat1)
+    # deg2rad below
+    dLon = deg2rad(lon2 - lon1)
+    a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2)
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    R * c
+    d = R * c
+    # Distance in km
+    d
+
+  deg2rad = (deg) ->
+    deg * Math.PI / 180
+
 )

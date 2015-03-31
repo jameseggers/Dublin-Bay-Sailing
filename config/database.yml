@@ -52,5 +52,5 @@ production:
   <<: *default
   database: sailing_production
   username: root
-  password: 
+  password: eqSWX2bcf0
   socket: /var/run/mysqld/mysqld.sock
