@@ -3,7 +3,7 @@ class CoursesController < ActionController::Base
 
   def index
     @courses = Course.all
-    @listings = Listing.all.group_by { |o| o.course_id }
+    @listings = Listing.all#.group_by { |o| o.course_id }
     @buoys = Buoy.all
   end
 

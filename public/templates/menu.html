@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 menu" style="height:600px;">
+      <div class="main_menu">
+          <h1 class="logo"> Dublin Bay Sailing </h1>
+          <br>
+          <p> Hut Start, or Committee Start? </p>
+          <select ng-options="start as start.name for start in starts" ng-model="selected_start" class="form"> </select>
+          <br><br>
+          <p> Select a course </p>
+          <select ng-options="course as course.symbol for course in courses" ng-model="selected_course" class="form"> </select>
+          <br><br>
+          <button type="button" class="btn btn-default" class="form" ng-click="switchToMapView()"> Ok! </button>
+      </div>
+    </div>
+  </div>
+</div>

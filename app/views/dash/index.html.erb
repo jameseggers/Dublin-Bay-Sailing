@@ -1,5 +1,5 @@
-  <div class="container-fluid" ng-controller="MainSailingController">
-    <div class="row" sailing-data>
+  <div class="container-fluid">
+    <div class="row">
       <div class="col-md-9 map_container" style="height:600px;" sailing-map>
         <div id="map_canvas" class="maxHeight">
 
@@ -8,10 +8,10 @@
 
       <div class="col-md-3 sidebar maxHeight">
         <ul>
-          <li ng-repeat="course in courses"> <button ng-click="$parent.selectedCourse=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
+          <li ng-repeat="course in courses"> <button ng-click="selectedCourse=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
         </ul>
       </div>
-      
+
 
     </div>
   </div>

@@ -1,48 +1,24 @@
-sailingApp = angular.module('sailingApp', ["ngResource", "ui.bootstrap"]);
+sailingAppControllers = angular.module('sailingAppControllers', []);
 
-sailingApp.factory('Course', ['$resource', ($resource) ->
-  return $resource('courses.json', {}, {})
-])
+sailingAppControllers.controller('MenuController', ($scope, $location) ->
 
-sailingApp.factory('constants', [() ->
-    constants =
-      dun_laoghaire: new google.maps.LatLng(53.32249966680044, -6.13918810268558)
-])
+  $scope.starts = [
+    id: 0
+    name: "Hut Start"
+  ,
+    id: 1
+    name: "Committee Boat Start"
+  ]
 
-sailingApp.directive('sailingMap', (constants) ->
-  link: (scope) ->
-    mapOptions =
-        center: constants.dun_laoghaire
-        zoom: 13
-        disableDefaultUI: true
-        scrollwheel: true
-        navigationControl: false
-        mapTypeControl: false
-        scaleControl: false
-        draggable: false
-        zoomControl: true
-    scope.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions)
-    scope.markers = []
-    scope.addBoat()
+  $scope.selected_start = $scope.starts[0]
+  $scope.selected_course = $scope.courses[0]
+
+  $scope.switchToMapView = ->
+    $location.path('/map')
+
 )
 
-sailingApp.directive('sailingData', (Course) ->
-  link: (scope) ->
-    scope.markers = []
-
-    Course.get({}, (resp) ->
-      buoys = {}
-      for buoy in resp.buoys
-        buoys[buoy.symbol] = buoy
-
-      scope.buoys = buoys
-      scope.courses = resp.courses
-      scope.listings = resp.listings
-      scope.paths = []
-    )
-)
-
-sailingApp.controller('MainSailingController', ($scope, Course, constants, $interval) ->
+sailingAppControllers.controller('MainSailingController', ($scope, Course, constants, $interval) ->
 
   $scope.updateBoatLocation = ->
     if navigator.geolocation
