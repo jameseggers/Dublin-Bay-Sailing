@@ -8,6 +8,9 @@
 
       <div class="col-md-3 sidebar maxHeight">
         <ul>
+          <li><div class = "start_buttons">
+            <button ng-click ="$parent.startSelect=hut;">Hut Start</button> 
+            <button ng-click ="$parent.startSelect=communal;"> Communal Start</button>
           <li ng-repeat="course in courses"> <button ng-click="$parent.selectedCourse=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
         </ul>
       </div>

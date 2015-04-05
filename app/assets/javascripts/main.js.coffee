@@ -82,11 +82,60 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $inte
 
   $scope.addMarksAndLine = ->
     $scope.clearMap()
+   
 
+
+
+    //set the start
     marks = $scope.listings[$scope.selectedCourse][0].buoy_listing.split(' ')
 
     line_symbol =
       path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+
+    if($scope.startSelect == "communal")
+      buoy = "Communal"
+      if navigator.geolocation
+        navigator.geolocation.getCurrentPosition( (position) ->
+          latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+    
+    else
+      buoy ="Hut"
+      latlng = new google.maps.LatLng(53.304130, -6.135073)
+    
+    icon =
+      scaledSize: new google.maps.Size(30, 30)
+      url: '/assets/buoy-e7aa992abe5b63febf15632545f69b3c.png'
+
+    marker = new google.maps.Marker(
+      position: latlng
+      map: $scope.map
+      title: buoy.name
+      icon: icon
+    )
+
+    scope.markers.push marker
+    //draw path from start to first buoy
+    color ="#FFFFFF"
+
+    next_buoy = $scope.buoys[marks[0].split('')[0]]
+    next_latlng = new google.maps.LatLng(next_buoy.latitude, next_buoy.longitude*-1);
+
+    path = new google.maps.Polyline(
+      path: [latlng, next_latlng]
+      geodisc: true
+      strokeColor: color
+      strokeOpacity: 1.0
+      strokeWeight: 2
+      icons: [
+       icon: line_symbol
+       offset: '100%'
+      ]
+      map: $scope.map
+    )
+
+    $scope.paths.push path
+    path.setMap($scope.map)
+  
 
     for mark, i in marks
       split = mark.split('')
@@ -158,3 +207,4 @@ sailingApp.controller('MainSailingController', ($scope, Course, constants, $inte
     deg * Math.PI / 180
 
 )
+
