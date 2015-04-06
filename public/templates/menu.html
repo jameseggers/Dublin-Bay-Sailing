@@ -5,10 +5,14 @@
           <h1 class="logo"> Dublin Bay Sailing </h1>
           <br>
           <p> Hut Start, or Committee Start? </p>
-          <select ng-options="start as start.name for start in starts" ng-model="prefs.selected_start" class="form"> </select>
+          <select ng-options="start as start.name for start in starts" ng-model="prefs.selected_start" class="form" >
+            <option value="" disabled selected> Hut Start or Committee Start? </option>
+          </select>
           <br><br>
           <p> Select a course </p>
-          <select ng-options="course as course.symbol for course in courses" ng-model="prefs.selected_course" class="form"> </select>
+          <select ng-options="course as course.symbol for course in courses" ng-model="prefs.selected_course" class="form">
+            <option value="" disabled selected> Select a course </option>
+          </select>
           <br><br>
           <button type="button" class="btn btn-default" class="form" ng-click="switchToMapView()"> Ok! </button>
       </div>

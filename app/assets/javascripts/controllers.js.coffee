@@ -4,8 +4,6 @@ sailingAppControllers.controller('MenuController', ($scope, $location, constants
 
   $scope.starts = constants.starts
   $scope.prefs = prefs
-  $scope.prefs.selected_start = $scope.starts[0]
-  $scope.prefs.selected_course = $scope.courses[0]
 
   $scope.switchToMapView = ->
     $location.path('/map')
@@ -15,10 +13,6 @@ sailingAppControllers.controller('MainSailingController', ($scope, Course, const
 
   $scope.starts = constants.starts
   $scope.prefs = prefs
-
-  if $scope.prefs.selected_start is 0
-    $scope.prefs.selected_start = $scope.starts[0]
-    $scope.prefs.selected_course = $scope.courses[0]
 
   $scope.$watch('prefs.selected_course', () ->
     $scope.selected_listings = $scope.listings[$scope.prefs.selected_course.id]
