@@ -10,6 +10,6 @@ class CoursesController < ActionController::Base
   private
 
   def set_course
-    @course = Couse.find(params[:course_id])
+    @course = Course.find(params[:course_id])
   end
 end
