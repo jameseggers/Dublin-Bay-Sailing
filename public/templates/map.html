@@ -7,8 +7,9 @@
     </div>
 
     <div class="col-md-3 sidebar maxHeight">
+      <div ng-include="'templates/menu_side.html'"> </div>
       <ul>
-        <li ng-repeat="course in courses"> <button ng-click="$parent.selectedCourse=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
+        <li ng-repeat="listing in listings[selected_course]"> <button ng-click="$parent.selected_listing=$index;addMarksAndLine();"> Course {{ course.symbol }} </button> </li>
       </ul>
     </div>
 

@@ -30,5 +30,6 @@ sailingAppDirectives.directive('sailingData', (Course) ->
       scope.courses = resp.courses
       scope.listings = resp.listings
       scope.paths = []
+      console.log scope
     )
 )

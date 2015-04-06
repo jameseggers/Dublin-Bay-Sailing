@@ -1,24 +1,28 @@
 sailingAppControllers = angular.module('sailingAppControllers', []);
 
-sailingAppControllers.controller('MenuController', ($scope, $location) ->
+sailingAppControllers.controller('MenuController', ($scope, $location, constants, prefs) ->
 
-  $scope.starts = [
-    id: 0
-    name: "Hut Start"
-  ,
-    id: 1
-    name: "Committee Boat Start"
-  ]
-
-  $scope.selected_start = $scope.starts[0]
-  $scope.selected_course = $scope.courses[0]
+  $scope.starts = constants.starts
+  $scope.prefs = prefs
+  $scope.prefs.selected_start = $scope.starts[0]
+  $scope.prefs.selected_course = $scope.courses[0]
 
   $scope.switchToMapView = ->
     $location.path('/map')
-
 )
 
-sailingAppControllers.controller('MainSailingController', ($scope, Course, constants, $interval) ->
+sailingAppControllers.controller('MainSailingController', ($scope, Course, constants, $interval, $location, prefs) ->
+
+  $scope.starts = constants.starts
+  $scope.prefs = prefs
+
+  if $scope.prefs.selected_start is 0
+    $scope.prefs.selected_start = $scope.starts[0]
+    $scope.prefs.selected_course = $scope.courses[0]
+
+  $scope.$watch('prefs.selected_course', () ->
+    $scope.selected_listings = $scope.listings[$scope.prefs.selected_course.id]
+  )
 
   $scope.updateBoatLocation = ->
     if navigator.geolocation
@@ -59,7 +63,7 @@ sailingAppControllers.controller('MainSailingController', ($scope, Course, const
   $scope.addMarksAndLine = ->
     $scope.clearMap()
 
-    marks = $scope.listings[$scope.selectedCourse][0].buoy_listing.split(' ')
+    marks = $scope.prefs.selected_listing.buoy_listing.split(' ')
 
     line_symbol =
       path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW

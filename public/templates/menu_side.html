@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 menu_side">
+      <div class="main_menu">
+          <h1 class="logo"> Dublin Bay Sailing </h1>
+          <br>
+          <p> Hut Start, or Committee Start? </p>
+          <select ng-options="start as start.name for start in starts" ng-model="$parent.prefs.selected_start" class="form"> </select>
+          <br><br>
+          <p> Select a course </p>
+          <select ng-options="course as course.symbol for course in courses" ng-model="$parent.prefs.selected_course" class="form"> </select>
+          <br><br>
+          <p> Select a race </p>
+          <select ng-options="listing as listing.buoy_listing for listing in $parent.selected_listings" ng-model="$parent.prefs.selected_listing" ng-change="addMarksAndLine()" class="form"> </select>
+      </div>
+    </div>
+  </div>
+</div>
