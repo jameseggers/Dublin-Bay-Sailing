@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303232617) do
+ActiveRecord::Schema.define(version: 20150407143112) do
 
   create_table "buoys", force: :cascade do |t|
-    t.float  "latitude",  limit: 24
-    t.float  "longitude", limit: 24
-    t.string "name",      limit: 255
-    t.string "symbol",    limit: 255
+    t.float  "latitude",    limit: 24
+    t.float  "longitude",   limit: 24
+    t.string "name",        limit: 255
+    t.string "symbol",      limit: 255
+    t.string "buoy_colour", limit: 255
   end
 
   create_table "courses", force: :cascade do |t|
