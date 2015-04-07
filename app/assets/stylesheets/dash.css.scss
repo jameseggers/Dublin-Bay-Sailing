@@ -1,3 +1,5 @@
+$grey: #464646;
+
 html, body {
   height: 100%;
   margin: 0;
@@ -12,7 +14,7 @@ html, body {
 }
 
 .sidebar, .menu {
-  background: #464646;
+  background: $grey;
   height: 600px !important;
   border-bottom: 5px black solid;
 }
@@ -73,7 +75,7 @@ html, body {
   width: 300px;
   height: 300px;
   margin: 0 auto;
-  margin-top: 150px;
+  padding-top: 150px;
   text-align: center;
   color: #fff;
 
@@ -87,4 +89,8 @@ html, body {
   .form {
     width: 100%;
   }
+}
+
+select {
+  color: $grey !important;
 }
